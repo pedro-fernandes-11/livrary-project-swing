@@ -103,18 +103,24 @@ public class Edit extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        try{
-            book.setTitle(titleField.getText());
-            book.setYear(Integer.parseInt(yearField.getText()));
-            if (imported.isSelected()) {
-                book.setIsImported(true);
-            } else {
-                book.setIsImported(false);
+        String title = titleField.getText();
+        int newYear = 0;
+        boolean isImported = imported.isSelected();
+        
+        if(!title.isEmpty()){
+            try{
+                newYear = Integer.parseInt(yearField.getText());
+                book.setTitle(title);
+                book.setYear(newYear);
+                book.setIsImported(isImported);
+
+                dispose();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Não é possível adicionar um texto no campo 'ano'");
             }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Não é possível adicionar um texto no campo 'ano'");
+        }else{
+            JOptionPane.showMessageDialog(this, "Algum dos campos está vazio");
         }
-        dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     /**
