@@ -108,25 +108,33 @@ public class AddBook extends javax.swing.JDialog {
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         Book book;
         
-        try{
-        if (imported.isSelected()) {
-            book = new Book(
-                titleField.getText(),
-                Integer.parseInt(yearField.getText()),
-                true
-            );
-        } else {
-            book = new Book(
-                titleField.getText(),
-                Integer.parseInt(yearField.getText()),
-                false
-            );
+        String title = titleField.getText();
+        int newYear = 0;
+        boolean isImported = imported.isSelected();
+        
+        if(!title.isEmpty()){
+            try{
+                if (imported.isSelected()) {
+                    book = new Book(
+                        titleField.getText(),
+                        Integer.parseInt(yearField.getText()),
+                        true
+                    );
+                } else {
+                    book = new Book(
+                        titleField.getText(),
+                        Integer.parseInt(yearField.getText()),
+                        false
+                    );
+                }
+                MainPage.list.add(book);
+                dispose();
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Deve ser passado um número inteiro para o campo ano");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Preencha o campo título");
         }
-        MainPage.list.add(book);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Não é possível adicionar um texto no campo 'ano'");
-        }
-        dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     /**

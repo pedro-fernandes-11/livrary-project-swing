@@ -116,10 +116,10 @@ public class Edit extends javax.swing.JDialog {
 
                 dispose();
             }catch(Exception e){
-                JOptionPane.showMessageDialog(this, "Não é possível adicionar um texto no campo 'ano'");
+                JOptionPane.showMessageDialog(this, "Deve ser passado um número inteiro para o campo ano");
             }
         }else{
-            JOptionPane.showMessageDialog(this, "Algum dos campos está vazio");
+            JOptionPane.showMessageDialog(this, "O campo título está vazio");
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
