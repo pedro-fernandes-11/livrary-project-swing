@@ -46,6 +46,7 @@ public class ListLib extends javax.swing.JDialog {
         listBooks = new javax.swing.JList<>();
         editBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
+        onlyImportedOption = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,6 +86,13 @@ public class ListLib extends javax.swing.JDialog {
             }
         });
 
+        onlyImportedOption.setText("Mostrar somente internacionais");
+        onlyImportedOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onlyImportedOptionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,23 +103,24 @@ public class ListLib extends javax.swing.JDialog {
                 .addGap(264, 264, 264))
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(editBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteBtn))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(titleOption)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(yearOption)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(selectAllOption)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1))))
+                        .addComponent(deleteBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(onlyImportedOption))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(titleOption)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(yearOption)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(selectAllOption)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -131,8 +140,9 @@ public class ListLib extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editBtn)
-                    .addComponent(deleteBtn))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addComponent(deleteBtn)
+                    .addComponent(onlyImportedOption))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,25 +150,50 @@ public class ListLib extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         model.removeAllElements();
-        if (titleOption.isSelected()) {
-            for (Book a : MainPage.list) {
-                if (a.getTitle().equals(textSearch.getText())) {
-                    model.addElement(a);
+        if(onlyImportedOption.isSelected()){
+            if (titleOption.isSelected()) {
+                for (Book a : MainPage.list) {
+                    if (a.getTitle().equals(textSearch.getText()) && a.getIsImported()) {
+                        model.addElement(a);
+                    }
                 }
             }
-        }
-        if (yearOption.isSelected()) {
-            for (Book a : MainPage.list) {
-                if ((a.getYear() + "").equals(textSearch.getText())) {
-                    model.addElement(a);
+            if (yearOption.isSelected()) {
+                for (Book a : MainPage.list) {
+                    if ((a.getYear() + "").equals(textSearch.getText()) && a.getIsImported()) {
+                        model.addElement(a);
+                    }
                 }
             }
-        }
-        if (selectAllOption.isSelected()) {
-            for (Book a : MainPage.list) {
-                model.addElement(a);
+            if (selectAllOption.isSelected()) {
+                for (Book a : MainPage.list) {
+                    if (a.getIsImported()) {
+                        model.addElement(a);
+                    }
+                }
             }
+        }else{
+           if (titleOption.isSelected()) {
+                for (Book a : MainPage.list) {
+                    if (a.getTitle().equals(textSearch.getText())) {
+                        model.addElement(a);
+                    }
+                }
+            }
+            if (yearOption.isSelected()) {
+                for (Book a : MainPage.list) {
+                    if ((a.getYear() + "").equals(textSearch.getText())) {
+                        model.addElement(a);
+                    }
+                }
+            }
+            if (selectAllOption.isSelected()) {
+                for (Book a : MainPage.list) {
+                    model.addElement(a);
+                }
+            } 
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
@@ -174,6 +209,10 @@ public class ListLib extends javax.swing.JDialog {
             model.removeElement(listBooks.getSelectedValue());
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void onlyImportedOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlyImportedOptionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onlyImportedOptionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,6 +264,7 @@ public class ListLib extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<Book> listBooks;
+    private javax.swing.JRadioButton onlyImportedOption;
     private javax.swing.JRadioButton selectAllOption;
     private javax.swing.JTextField textSearch;
     private javax.swing.JRadioButton titleOption;

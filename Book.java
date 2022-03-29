@@ -27,7 +27,7 @@ public class Book {
         this.year = year;
     }
 
-    public boolean isIsImported() {
+    public boolean getIsImported() {
         return isImported;
     }
 

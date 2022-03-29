@@ -109,28 +109,26 @@ public class AddBook extends javax.swing.JDialog {
         Book book;
         
         String title = titleField.getText();
-        int newYear = 0;
         boolean isImported = imported.isSelected();
+        boolean isCreatable = true;
         
         if(!title.isEmpty()){
-            try{
-                if (imported.isSelected()) {
-                    book = new Book(
-                        titleField.getText(),
-                        Integer.parseInt(yearField.getText()),
-                        true
-                    );
-                } else {
-                    book = new Book(
-                        titleField.getText(),
-                        Integer.parseInt(yearField.getText()),
-                        false
-                    );
+            for(Book each : MainPage.list){
+                if(each.getTitle().contains(title)){
+                    isCreatable = false;
                 }
-                MainPage.list.add(book);
-                dispose();
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(this, "Deve ser passado um número inteiro para o campo ano");
+            }
+
+            if(isCreatable){
+                try{
+                    book = new Book(titleField.getText(), Integer.parseInt(yearField.getText()), isImported);
+                    MainPage.list.add(book);
+                    dispose();
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Deve ser passado um número inteiro para o campo ano");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Esse livro já está registrado");
             }
         }else{
             JOptionPane.showMessageDialog(this, "Preencha o campo título");
